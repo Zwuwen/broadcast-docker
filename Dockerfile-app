@@ -1,0 +1,3 @@
+FROM bolingcavalry/opencv3.4.3:0.0.3
+COPY svr-1.0.0.1.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar","-Djava.library.path=/opencv-3.4.3/build/lib"]
