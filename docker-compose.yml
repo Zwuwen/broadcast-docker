@@ -8,10 +8,10 @@ services:
       dockerfile: Dockerfile-mysql
     container_name: asterisk-mysql
     #restart: always
-    network_mode: "host"
+    #network_mode: "host"
     #指定服务运行的端口
-    #ports :
-    #  - "3336:3306"
+    ports :
+      - "3336:3306"
     #指定容器的环境变量
     environment:
       #数据库密码
@@ -54,9 +54,9 @@ services:
       #dockerfile存放路径
       context: .
       dockerfile: Dockerfile-app
-    network_mode: "host"
-    #ports:
-    #  - "8890:8090"
+    #network_mode: "host"
+    ports:
+      - "8890:8090"
 
     volumes:
       - ./audio_program:/home/dev/program

@@ -1,13 +1,17 @@
 version: "3"
 services:
   mysql:
-    image: mysql:5.7.36
+    #image: mysql:5.7.36
     #指定容器名称
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
     container_name: asterisk-mysql
     #restart: always
+    network_mode: "host"
     #指定服务运行的端口
-    ports :
-      - "3336:3306"
+    #ports :
+    #  - "3336:3306"
     #指定容器的环境变量
     environment:
       #数据库密码
@@ -28,20 +32,15 @@ services:
     container_name: asterisk-sip
     #restart: always
     #指定服务运行的端口
-    ports:
-      - "5038:5038"
-      - "2000:2000"
-      - "8088:8088"
-      - "4520:4520/udp"
-      - "4569:4569/udp"
-      - "2727:2727/udp"
-      - "5000:5000/udp"
-      - "57275:57275/udp"
-      - "48280:48280"
-      - "5060:5060/udp"
+    network_mode: "host"
+    #ports:
+    #  - "5060:5060/udp"
     #挂载数据卷
     volumes:
       - ./audio_program:/home/dev/program
+      - ./asterisk/conf/asterisk:/etc/asterisk
+      - ./asterisk/opt/asterisk-18:/opt/asterisk-18
+      - ./asterisk/etc:/etc
 
     #依赖的服务
     command: bash -c "
@@ -55,8 +54,9 @@ services:
       #dockerfile存放路径
       context: .
       dockerfile: Dockerfile-app
-    ports:
-      - "8890:8090"
+    network_mode: "host"
+    #ports:
+    #  - "8890:8090"
 
     volumes:
       - ./audio_program:/home/dev/program
